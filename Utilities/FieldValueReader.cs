@@ -79,15 +79,12 @@ namespace HKBN.ProAssetInspector.Utilities
         private static Field FindField(TableDefinition tableDefinition, IEnumerable<string> candidateFieldNames)
         {
             var fields = tableDefinition.GetFields();
-            var lookup = fields.ToDictionary(
-                f => f.Name,
-                f => f,
-                StringComparer.OrdinalIgnoreCase);
-
             foreach (var candidate in candidateFieldNames)
             {
-                if (lookup.TryGetValue(candidate, out var exact))
-                    return exact;
+                var match = fields.FirstOrDefault(f =>
+                    f.Name.IndexOf(candidate, StringComparison.OrdinalIgnoreCase) >= 0);
+                if (match != null)
+                    return match;
             }
 
             return null;

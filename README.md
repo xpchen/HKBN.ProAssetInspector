@@ -1,6 +1,8 @@
 # HKBN.ProAssetInspector
 
-ArcGIS Pro Add-in for map-based asset inspection and validation. Reads selected features from the active map, applies business rules, and supports zoom, selection, and CSV export.
+ArcGIS Pro Add-in for map-based asset inspection and validation.
+
+> **bug-fix 分支**：本分支含面试/练习用预埋缺陷。面试官或同事请参阅 [docs/BUGFIX_EXERCISE_GUIDE.md](docs/BUGFIX_EXERCISE_GUIDE.md)（勿发给候选人）。正确实现请以 `master` 为准。 Reads selected features from the active map, applies business rules, and supports zoom, selection, and CSV export.
 
 ## Features
 

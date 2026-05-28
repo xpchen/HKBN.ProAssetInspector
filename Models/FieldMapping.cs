@@ -34,7 +34,7 @@ namespace HKBN.ProAssetInspector.Models
 
         public static readonly string[] PowerAssetKeywords =
         {
-            "Pole", "Line", "Cable", "Transformer", "Switch", "Power"
+            "Pole", "Line", "Switch", "Power"
         };
     }
 }

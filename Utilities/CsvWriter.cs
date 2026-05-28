@@ -22,7 +22,7 @@ namespace HKBN.ProAssetInspector.Utilities
             if (value == null)
                 return string.Empty;
 
-            var needsQuotes = value.Contains(',') || value.Contains('"') || value.Contains('\r') || value.Contains('\n');
+            var needsQuotes = value.Contains(',') || value.Contains('"');
             if (!needsQuotes)
                 return value;
 

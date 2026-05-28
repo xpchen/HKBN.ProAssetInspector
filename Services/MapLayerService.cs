@@ -24,7 +24,7 @@ namespace HKBN.ProAssetInspector.Services
             if (map == null)
                 return Task.FromResult((IReadOnlyList<LayerInfo>)new List<LayerInfo>());
 
-            var layers = map.GetLayersAsFlattenedList().OfType<FeatureLayer>().ToList();
+            var layers = map.Layers.OfType<FeatureLayer>().ToList();
             var result = layers.Select(ToLayerInfo).OrderBy(l => l.LayerName).ToList();
             return Task.FromResult((IReadOnlyList<LayerInfo>)result);
         }
@@ -44,7 +44,7 @@ namespace HKBN.ProAssetInspector.Services
             if (map == null)
                 return null;
 
-            return map.GetLayersAsFlattenedList()
+            return map.Layers
                 .OfType<FeatureLayer>()
                 .FirstOrDefault(l => l.Name == layerName);
         }

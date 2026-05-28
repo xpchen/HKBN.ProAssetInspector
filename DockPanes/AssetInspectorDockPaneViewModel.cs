@@ -206,7 +206,6 @@ namespace HKBN.ProAssetInspector.DockPanes
                 return;
 
             IsLoading = true;
-            var previousLayer = SelectedLayer?.LayerName;
 
             try
             {
@@ -231,9 +230,7 @@ namespace HKBN.ProAssetInspector.DockPanes
 
                 EmptyLayersMessage = Layers.Count == 0 ? "No feature layers found." : string.Empty;
 
-                SelectedLayer = string.IsNullOrWhiteSpace(previousLayer)
-                    ? Layers.FirstOrDefault()
-                    : Layers.FirstOrDefault(l => l.LayerName == previousLayer) ?? Layers.FirstOrDefault();
+                SelectedLayer = Layers.FirstOrDefault();
 
                 StatusMessage = $"Loaded {Layers.Count} feature layer(s).";
             }
@@ -287,15 +284,18 @@ namespace HKBN.ProAssetInspector.DockPanes
             IsLoading = true;
             try
             {
-                var records = await QueuedTask.Run(() => _assetSelectionService.LoadSelectedAssetsAsync());
+                await QueuedTask.Run(() =>
+                {
+                    var records = _assetSelectionService.LoadSelectedAssetsAsync().GetAwaiter().GetResult();
 
-                Assets.Clear();
-                Issues.Clear();
-                SelectedAsset = null;
-                SelectedIssue = null;
+                    Assets.Clear();
+                    Issues.Clear();
+                    SelectedAsset = null;
+                    SelectedIssue = null;
 
-                foreach (var record in records)
-                    Assets.Add(record);
+                    foreach (var record in records)
+                        Assets.Add(record);
+                });
 
                 EmptyAssetsMessage = Assets.Count == 0 ? "No selected features found." : string.Empty;
                 StatusMessage = Assets.Count == 0
