@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ArcGIS defaultAssembly="HKBN.ProAssetInspector.dll"
+        defaultNamespace="HKBN.ProAssetInspector"
+        xmlns="http://schemas.esri.com/DADF/Registry"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://schemas.esri.com/DADF/Registry file:///C:/Program%20Files/ArcGIS/Pro/bin/ArcGIS.Desktop.Framework.xsd">
+
+  <AddInInfo id="{a29441bd-0816-41bc-ae45-05dac6ab01dd}" version="1.0" desktopVersion="3.3.52636" product="ArcGISPro">
+    <Name>HKBN.ProAssetInspector</Name>
+    <Description>HKBN Pro Asset Inspector - map-based asset inspection and validation add-in.</Description>
+    <Image>Images\AddInDesktop32.png</Image>
+    <Author>HKBN</Author>
+    <Company>HKBN</Company>
+    <Date>5/28/2026</Date>
+    <Subject>Map Exploration</Subject>
+  </AddInInfo>
+
+  <modules>
+    <insertModule id="HKBN.ProAssetInspector_Module" className="Module1" autoLoad="true" caption="HKBN Pro Asset Inspector">
+      <tabs>
+        <tab id="HKBN_ProAssetInspector_HKBNToolsTab" caption="HKBN Tools" appearsOnAddInTab="false">
+          <group refID="HKBN_ProAssetInspector_AssetToolsGroup"/>
+        </tab>
+      </tabs>
+
+      <groups>
+        <group id="HKBN_ProAssetInspector_AssetToolsGroup" caption="Asset Tools">
+          <button refID="HKBN_ProAssetInspector_AssetInspectorButton"/>
+        </group>
+      </groups>
+
+      <controls>
+        <button id="HKBN_ProAssetInspector_AssetInspectorButton"
+                caption="Asset Inspector"
+                className="Commands.ShowAssetInspectorButton"
+                loadOnClick="true"
+                smallImage="Images\AddInDesktop16.png"
+                largeImage="Images\AddInDesktop32.png">
+          <tooltip heading="Asset Inspector">Open the HKBN Asset Inspector dock pane.</tooltip>
+        </button>
+      </controls>
+
+      <!-- Dock panes must be declared inside insertModule (Esri DockpaneSimple sample / ProGuide). -->
+      <dockPanes>
+        <dockPane id="HKBN_ProAssetInspector_AssetInspectorDockPane"
+                  caption="HKBN Asset Inspector"
+                  className="DockPanes.AssetInspectorDockPaneViewModel"
+                  dock="group"
+                  dockWith="esri_core_contentsDockPane">
+          <content className="DockPanes.AssetInspectorDockPaneView"/>
+        </dockPane>
+      </dockPanes>
+    </insertModule>
+  </modules>
+</ArcGIS>

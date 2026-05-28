@@ -1,0 +1,58 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio
+.vs/
+*.rsuser
+*.userprefs
+
+# NuGet
+packages/
+*.nupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ArcGIS Pro / Add-in
+*.esriAddinX
+Install/
+temp_archive/
+*.pdb
+!**/Publish/*.pdb
+
+# Geodatabase locks (run scripts/CreateProAssetInspectorFeatureClasses.py to create data)
+**/*.lock
+**/*.sr.lock
+
+# ArcGIS project backups / import logs
+**/.backups/
+**/ImportLog/
+
+# Optional: exclude file GDB binaries (uncomment to shrink repo; data from arcpy script)
+# Projects/ProAssetInspector/ProAssetInspector.gdb/
+
+# Python
+__pycache__/
+*.pyc
+.Python
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# IDE / Cursor
+.idea/
+*.log
+
+# Local secrets
+*.env
+secrets.json
+appsettings.*.local.json

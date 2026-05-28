@@ -1,0 +1,113 @@
+<UserControl x:Class="HKBN.ProAssetInspector.DockPanes.AssetInspectorDockPaneView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utils="clr-namespace:HKBN.ProAssetInspector.Utilities"
+             MinWidth="420"
+             MinHeight="500">
+  <UserControl.Resources>
+    <utils:NullDisplayConverter x:Key="NullDisplayConverter"/>
+  </UserControl.Resources>
+
+  <Grid Margin="8">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+
+    <!-- Map status -->
+    <StackPanel Grid.Row="0" Margin="0,0,0,8">
+      <TextBlock Text="Map status" FontWeight="SemiBold"/>
+      <TextBlock Text="{Binding HasActiveMapView, Mode=OneWay, StringFormat=Active map view: {0}}"/>
+      <TextBlock Text="{Binding ActiveMapName, Mode=OneWay, StringFormat=Map name: {0}}"/>
+      <TextBlock Text="{Binding NoMapMessage, Mode=OneWay}" Foreground="DarkOrange"/>
+    </StackPanel>
+
+    <!-- Layer selection -->
+    <StackPanel Grid.Row="1" Margin="0,0,0,8">
+      <TextBlock Text="Feature layer" FontWeight="SemiBold" Margin="0,0,0,4"/>
+      <ComboBox ItemsSource="{Binding Layers}"
+                SelectedItem="{Binding SelectedLayer, Mode=TwoWay}"
+                DisplayMemberPath="LayerName"
+                IsEnabled="{Binding HasActiveMapView}"/>
+      <TextBlock Text="{Binding EmptyLayersMessage, Mode=OneWay}" Foreground="DarkOrange" Margin="0,4,0,0"/>
+      <TextBlock Text="{Binding LayerDetailText, Mode=OneWay}" Margin="0,6,0,0"
+                 TextWrapping="Wrap" FontFamily="Consolas" FontSize="11"/>
+    </StackPanel>
+
+    <!-- Buttons -->
+    <WrapPanel Grid.Row="2" Margin="0,0,0,8">
+      <Button Content="Refresh Layers" Command="{Binding RefreshLayersCommand}" Margin="0,0,6,6" MinWidth="100"/>
+      <Button Content="Load Selected Assets" Command="{Binding LoadSelectedAssetsCommand}" Margin="0,0,6,6" MinWidth="130"/>
+      <Button Content="Validate Assets" Command="{Binding ValidateAssetsCommand}" Margin="0,0,6,6" MinWidth="100"/>
+      <Button Content="Zoom To Selected Asset" Command="{Binding ZoomToSelectedAssetCommand}" Margin="0,0,6,6" MinWidth="150"/>
+      <Button Content="Select In Map" Command="{Binding SelectInMapCommand}" Margin="0,0,6,6" MinWidth="100"/>
+      <Button Content="Export Validation Report" Command="{Binding ExportValidationReportCommand}" Margin="0,0,6,6" MinWidth="160"/>
+    </WrapPanel>
+
+    <!-- Tabs -->
+    <TabControl Grid.Row="3">
+      <TabItem Header="Selected Assets">
+        <DockPanel>
+          <TextBlock DockPanel.Dock="Top" Text="{Binding EmptyAssetsMessage, Mode=OneWay}"
+                     Foreground="DarkOrange" Margin="0,0,0,4"/>
+          <DataGrid ItemsSource="{Binding Assets}"
+                    SelectedItem="{Binding SelectedAsset, Mode=TwoWay}"
+                    AutoGenerateColumns="False"
+                    IsReadOnly="True"
+                    SelectionMode="Single"
+                    CanUserAddRows="False">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="LayerName" Binding="{Binding LayerName}" Width="*"/>
+              <DataGridTextColumn Header="ObjectID" Binding="{Binding ObjectID}" Width="70"/>
+              <DataGridTextColumn Header="AssetID" Binding="{Binding AssetID, Converter={StaticResource NullDisplayConverter}}" Width="*"/>
+              <DataGridTextColumn Header="AssetType" Binding="{Binding AssetType, Converter={StaticResource NullDisplayConverter}}" Width="*"/>
+              <DataGridTextColumn Header="Status" Binding="{Binding Status, Converter={StaticResource NullDisplayConverter}}" Width="*"/>
+              <DataGridTextColumn Header="VoltageLevel" Binding="{Binding VoltageLevel, Converter={StaticResource NullDisplayConverter}}" Width="90"/>
+              <DataGridTextColumn Header="Owner" Binding="{Binding Owner, Converter={StaticResource NullDisplayConverter}}" Width="*"/>
+            </DataGrid.Columns>
+          </DataGrid>
+        </DockPanel>
+      </TabItem>
+      <TabItem Header="Validation Issues">
+        <DockPanel>
+          <TextBlock DockPanel.Dock="Top" Text="{Binding EmptyIssuesMessage, Mode=OneWay}"
+                     Foreground="DarkOrange" Margin="0,0,0,4"/>
+          <DataGrid ItemsSource="{Binding Issues}"
+                    SelectedItem="{Binding SelectedIssue, Mode=TwoWay}"
+                    AutoGenerateColumns="False"
+                    IsReadOnly="True"
+                    SelectionMode="Single"
+                    CanUserAddRows="False">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="Severity" Binding="{Binding Severity}" Width="70"/>
+              <DataGridTextColumn Header="IssueCode" Binding="{Binding IssueCode}" Width="*"/>
+              <DataGridTextColumn Header="LayerName" Binding="{Binding LayerName}" Width="*"/>
+              <DataGridTextColumn Header="ObjectID" Binding="{Binding ObjectID}" Width="70"/>
+              <DataGridTextColumn Header="AssetID" Binding="{Binding AssetID, Converter={StaticResource NullDisplayConverter}}" Width="*"/>
+              <DataGridTextColumn Header="Message" Binding="{Binding Message}" Width="2*"/>
+            </DataGrid.Columns>
+          </DataGrid>
+        </DockPanel>
+      </TabItem>
+    </TabControl>
+
+    <!-- Status bar -->
+    <Border Grid.Row="4" BorderBrush="LightGray" BorderThickness="0,1,0,0" Padding="0,6,0,0" Margin="0,8,0,0">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="{Binding StatusMessage, Mode=OneWay}" TextWrapping="Wrap"/>
+        <TextBlock Grid.Column="1" Margin="12,0,0,0" Text="{Binding AssetCount, StringFormat=Assets: {0}}"/>
+        <TextBlock Grid.Column="2" Margin="12,0,0,0" Text="{Binding IssueCount, StringFormat=Issues: {0}}"/>
+        <TextBlock Grid.Column="3" Margin="12,0,0,0" Text="{Binding IsLoading, StringFormat=Busy: {0}}"/>
+      </Grid>
+    </Border>
+  </Grid>
+</UserControl>
